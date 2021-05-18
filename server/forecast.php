@@ -65,10 +65,10 @@ class WeatherForecastProvider implements ServiceProvider {
 
 			$daily[] = sprintf(
 				'<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s" />
-				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-style: %s; font-weight: bold;">
+				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
 				%s
 				</text>
-				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-style: %s; font-weight: bold;">
+				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
 				%d° %d°
 				</text>
 				',
