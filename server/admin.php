@@ -5,7 +5,7 @@
 
   // Render a widget
   if (isset($_GET["action"]) && $_GET["action"] == "renderthumb") {
-    header('Content-type: image/png');
+    header('Content-type: image/jpg');
     $im = renderBMP($_GET["id"], 8, 600, 600);
     die($im);
   }

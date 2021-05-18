@@ -110,7 +110,8 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 	$im = new Imagick();
 
 	$im->readImageFile(fopen($svgf.".png", "rb"));
-	$im->setImageFormat("png24");
+	//$im->setImageFormat("png24");
+	$im->setImageFormat("jpeg");
 
 	$im->transformImageColorspace(imagick::COLORSPACE_GRAY);
 	$im->posterizeImage($numc, imagick::DITHERMETHOD_NO);

@@ -20,7 +20,7 @@ if (isset($_GET["action"]) && isset($_GET["id"]) && $_GET["action"] == "render")
 if (isset($_GET["action"]) && isset($_GET["id"]) && $_GET["action"] == "renderpng") {
 	$im = renderBMP($_GET["id"], $numc, 0, 0);
 
-    header('Content-type: image/png');
+    header('Content-type: image/jpg');
 	die($im);
 }
 
