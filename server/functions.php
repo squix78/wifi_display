@@ -10,6 +10,8 @@ require_once("currency.php");
 require_once("stock.php");
 require_once("btc.php");
 require_once("forecast.php");
+require_once("hourlyForecast.php");
+require_once("staticText.php");
 
 error_reporting(-1);
 ini_set('display_errors', 'On');
@@ -106,10 +108,11 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 
 	// Call convert
 	exec("rsvg-convert -o " . $svgf . ".png " . $svgf);
-
+	//exec("convert -filter Lanczos " . $svgf . " " . $svgf . ".png");
 	$im = new Imagick();
 
 	$im->readImageFile(fopen($svgf.".png", "rb"));
+	//$im->readImageBlob($svg);
 	//$im->setImageFormat("png24");
 	$im->setImageFormat("jpeg");
 
@@ -119,7 +122,7 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 
 	unlink($svgf);
-	unlink($svgf.".png");
+    unlink($svgf.".png");
 	return $im;
 }
 

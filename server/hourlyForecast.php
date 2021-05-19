@@ -2,9 +2,9 @@
 
 require_once("provider.php");
 
-class WeatherForecastProvider implements ServiceProvider {
+class WeatherHourlyForecastProvider implements ServiceProvider {
 	// Widget properties
-	static $widgetName = "Weather Forecast";
+	static $widgetName = "Hourly Forecast";
 	static $widgetIcon = "forecast.svg";
 
 	public $location;
@@ -12,7 +12,7 @@ class WeatherForecastProvider implements ServiceProvider {
 	public $height;
 	public $ndays;
 
-	function WeatherForecastProvider() {
+	function WeatherHourlyForecastProvider() {
 		$this->location = "Barcelona,ES";
 		$this->width = 1000;
 		$this->height = 200;
@@ -49,7 +49,7 @@ class WeatherForecastProvider implements ServiceProvider {
     public function render() {
 		// Gather information from OpenWeatherMap
 		$raw = file_get_contents(
-			"http://api.openweathermap.org/data/2.5/forecast/daily?cnt=".($this->ndays+1)."&q=".$this->location."&APPID=".GlobalConfig::$weather_api_key
+			"http://api.openweathermap.org/data/2.5/forecast?cnt=".($this->ndays+1)."&q=".$this->location."&APPID=".GlobalConfig::$weather_api_key
 		);
 		$weather = json_decode($raw, true);
 
@@ -59,9 +59,9 @@ class WeatherForecastProvider implements ServiceProvider {
 		$nd = count($forecast)-1;
 		for ($i = 0; $i < $nd; $i++) {
 			$icon = $forecast[$i+1]["weather"][0]["icon"];
-			$dayn = date('D H:m', $forecast[$i+1]["dt"]);
-			$mint = $forecast[$i+1]["temp"]["min"] - 273.15;
-			$maxt = $forecast[$i+1]["temp"]["max"] - 273.15;
+			$dayn = date('H:m', $forecast[$i+1]["dt"]);
+			$mint = $forecast[$i+1]["main"]["temp_min"] - 273.15;
+			$maxt = $forecast[$i+1]["main"]["temp_max"] - 273.15;
 
 			$daily[] = sprintf(
 				'<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s" />
@@ -69,7 +69,7 @@ class WeatherForecastProvider implements ServiceProvider {
 				%s
 				</text>
 				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
-				%d° %d°
+				%d°
 				</text>
 				',
 				$this->width / $nd * ($i + 0.05), $this->height * 0.15,
@@ -80,7 +80,7 @@ class WeatherForecastProvider implements ServiceProvider {
 				$dayn,
 				$this->width / $nd * ($i + 0.5), 0.92  * $this->height,
 				$this->font_size * $this->height, $this->font_family,
-				$mint, $maxt
+				($mint + $maxt) /2
 			);
 		}
 

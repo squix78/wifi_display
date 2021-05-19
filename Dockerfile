@@ -4,6 +4,7 @@ RUN echo "deb http://http.debian.net/debian/ buster main contrib non-free" > /et
     echo "deb http://security.debian.org/ buster/updates main contrib non-free" >> /etc/apt/sources.list && \
     apt-get update
 RUN apt-get install -y --no-install-recommends \
+    imagemagick \
     libmagickwand-dev \
     librsvg2-bin \
     xfonts-100dpi \
