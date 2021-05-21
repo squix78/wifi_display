@@ -104,14 +104,18 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 	$data = renderSVG($id);
 	$svg = $data["svg"];
 	$svgf = tempnam("/tmp", "svgconv");
+	$svgPng = $svgf .".png";
+	$svgPdf = $svgf .".pdf";
 	file_put_contents($svgf, $svg);
 
 	// Call convert
-	exec("rsvg-convert -o " . $svgf . ".png " . $svgf);
+	exec("rsvg-convert -o " . $svgPng . " " . $svgf);
 	//exec("convert -filter Lanczos " . $svgf . " " . $svgf . ".png");
+	//exec("rsvg-convert -f pdf -o " . $svgPdf . " " . $svgf);
+	//exec("gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r72 -dGraphicsAlphaBits=1 -sOutputFile=" .$svgPng . " " . $svgPdf);
 	$im = new Imagick();
 
-	$im->readImageFile(fopen($svgf.".png", "rb"));
+	$im->readImageFile(fopen($svgPng, "rb"));
 	//$im->readImageBlob($svg);
 	//$im->setImageFormat("png24");
 	$im->setImageFormat("jpeg");
@@ -122,7 +126,7 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 
 	unlink($svgf);
-    unlink($svgf.".png");
+    unlink($svgPng);
 	return $im;
 }
 

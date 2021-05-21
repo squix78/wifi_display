@@ -5,6 +5,7 @@ RUN echo "deb http://http.debian.net/debian/ buster main contrib non-free" > /et
     apt-get update
 RUN apt-get install -y --no-install-recommends \
     imagemagick \
+    ghostscript \
     libmagickwand-dev \
     librsvg2-bin \
     xfonts-100dpi \
@@ -15,6 +16,7 @@ RUN apt-get install -y --no-install-recommends \
     ttf-mscorefonts-installer \
     fonts-open-sans \
     fontconfig 
+COPY server/fontconfig/* /etc/fonts/conf.d/
 RUN fc-cache -f -v
 RUN printf "\n" | pecl install imagick
 RUN mkdir -p /tmp
