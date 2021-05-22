@@ -18,6 +18,11 @@ class ProviderAux {
 		$rawsvg = base64_encode(file_get_contents($fpath));
 		return "data:image/svg+xml;base64,".$rawsvg;
 	}
+
+	static function loadSVG($fpath) {
+		$rawsvg = " " . file_get_contents($fpath);
+		return preg_replace("/<.xml.*?>/i", " ", $rawsvg);
+	}
 };
 
 

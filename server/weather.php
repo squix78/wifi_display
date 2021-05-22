@@ -54,12 +54,12 @@ class WeatherProvider implements ServiceProvider {
 		return sprintf(
 			'<svg width="%d" height="%d" version="1.1" xmlns="http://www.w3.org/2000/svg" 
 				xmlns:xlink="http://www.w3.org/1999/xlink">
-				<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s" />
+				<svg x="%d" y="%d" width="%d" height="%d" shape-rendering="crispEdges">%s</svg>
                 <text text-anchor="end" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">%d°</text>
 			</svg>', $this->width, $this->height,
 				0.03 * $this->width, 0.05 * $this->height,
 				0.35 * $this->width, 0.9 * $this->height,
-				ProviderAux::embedSVG("resources/".$this->imgmap[$icon].".svg"),
+				ProviderAux::loadSVG("resources/".$this->imgmap[$icon].".svg"),
 				$this->width, ($this->font_size/3.0 + 0.5) * $this->height, $this->font_size * $this->height,
 				$this->font_family,
 				round($temp)

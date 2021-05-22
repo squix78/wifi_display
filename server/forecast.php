@@ -59,12 +59,12 @@ class WeatherForecastProvider implements ServiceProvider {
 		$nd = count($forecast)-1;
 		for ($i = 0; $i < $nd; $i++) {
 			$icon = $forecast[$i+1]["weather"][0]["icon"];
-			$dayn = date('D H:m', $forecast[$i+1]["dt"]);
+			$dayn = date('D H:i', $forecast[$i+1]["dt"]);
 			$mint = $forecast[$i+1]["temp"]["min"] - 273.15;
 			$maxt = $forecast[$i+1]["temp"]["max"] - 273.15;
 
 			$daily[] = sprintf(
-				'<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s" />
+				'<svg x="%d" y="%d" width="%d" height="%d" shape-rendering="crispEdges">%s</svg>
 				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
 				%s
 				</text>
@@ -74,7 +74,7 @@ class WeatherForecastProvider implements ServiceProvider {
 				',
 				$this->width / $nd * ($i + 0.05), $this->height * 0.15,
 				$this->width / $nd * 0.9, $this->height * 0.6,
-				ProviderAux::embedSVG("resources/".$this->imgmap[$icon].".svg"),
+				ProviderAux::loadSVG("resources/".$this->imgmap[$icon].".svg"),
 				$this->width / $nd * ($i + 0.5), 0.12  * $this->height,
 				$this->font_size * $this->height, $this->font_family,
 				$dayn,
