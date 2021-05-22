@@ -75,7 +75,7 @@ function renderSVG($id) {
 
 		$wi = Providers::getRender($widget["type"], $params, $widget["geo"]["w"] * $scr["width"], $widget["geo"]["h"] * $scr["height"]);
 
-		$body[] = sprintf('<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s" />',
+		$body[] = sprintf('<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s"/>',
 		                  $widget["geo"]["x"] * $scr["width"],
 		                  $widget["geo"]["y"] * $scr["height"],
 		                  $widget["geo"]["w"] * $scr["width"],
@@ -87,7 +87,7 @@ function renderSVG($id) {
 	$body = implode("\n", $body);
 
 	$svg = sprintf('<svg width="%d" height="%d" version="1.1" xmlns="http://www.w3.org/2000/svg" 
-	                  xmlns:xlink="http://www.w3.org/1999/xlink">
+	                  xmlns:xlink="http://www.w3.org/1999/xlink"  shape-rendering="crispEdges">
 	                  %s
 	                </svg>', $scr["width"], $scr["height"], $body);
 
@@ -126,7 +126,7 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 
 	unlink($svgf);
-    unlink($svgPng);
+    unlink($svgf .".png");
 	return $im;
 }
 

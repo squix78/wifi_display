@@ -59,7 +59,7 @@ class WeatherHourlyForecastProvider implements ServiceProvider {
 		$nd = count($forecast)-1;
 		for ($i = 0; $i < $nd; $i++) {
 			$icon = $forecast[$i+1]["weather"][0]["icon"];
-			$dayn = date('H:m', $forecast[$i+1]["dt"]);
+			$dayn = date('H:i', $forecast[$i+1]["dt"]);
 			$mint = $forecast[$i+1]["main"]["temp_min"] - 273.15;
 			$maxt = $forecast[$i+1]["main"]["temp_max"] - 273.15;
 			$pop = $forecast[$i+1]["pop"] * 100;
