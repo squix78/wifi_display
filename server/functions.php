@@ -118,7 +118,7 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 	$im->readImageFile(fopen($svgPng, "rb"));
 	//$im->readImageBlob($svg);
 	$im->setImageFormat("jpeg");
-	$im->setImageCompressionQuality(60);
+	$im->setImageCompressionQuality(30);
 	//$im->setImageFormat("jpeg");
 
 	$im->transformImageColorspace(imagick::COLORSPACE_GRAY);
