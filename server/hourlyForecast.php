@@ -62,6 +62,7 @@ class WeatherHourlyForecastProvider implements ServiceProvider {
 			$dayn = date('H:m', $forecast[$i+1]["dt"]);
 			$mint = $forecast[$i+1]["main"]["temp_min"] - 273.15;
 			$maxt = $forecast[$i+1]["main"]["temp_max"] - 273.15;
+			$pop = $forecast[$i+1]["pop"] * 100;
 
 			$daily[] = sprintf(
 				'<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s" />
@@ -69,7 +70,7 @@ class WeatherHourlyForecastProvider implements ServiceProvider {
 				%s
 				</text>
 				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
-				%d°
+				%d° %d%%
 				</text>
 				',
 				$this->width / $nd * ($i + 0.05), $this->height * 0.15,
@@ -80,7 +81,8 @@ class WeatherHourlyForecastProvider implements ServiceProvider {
 				$dayn,
 				$this->width / $nd * ($i + 0.5), 0.92  * $this->height,
 				$this->font_size * $this->height, $this->font_family,
-				($mint + $maxt) /2
+				($mint + $maxt) /2,
+				$pop
 			);
 		}
 
