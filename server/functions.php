@@ -12,6 +12,7 @@ require_once("btc.php");
 require_once("forecast.php");
 require_once("hourlyForecast.php");
 require_once("staticText.php");
+require_once("dateTimeText.php");
 
 error_reporting(-1);
 ini_set('display_errors', 'On');
@@ -121,10 +122,14 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 	$im->setImageCompressionQuality(30);
 	//$im->setImageFormat("jpeg");
 
-	$im->transformImageColorspace(imagick::COLORSPACE_GRAY);
-	$im->posterizeImage($numc, imagick::DITHERMETHOD_NO);
+	$im->transformImageColorspace(Imagick::IMGTYPE_GRAYSCALE);
+	$im->posterizeImage(2, imagick::DITHERMETHOD_NO);
+	$im->blackThresholdImage('grey');
+	$im->setOption('jpeg:colors', '2');
 	$im->setImageBackgroundColor('white');
-	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);-
+
+	$im->stripImage();
 
 	unlink($svgf);
     unlink($svgf .".png");
