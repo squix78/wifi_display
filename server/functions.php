@@ -90,6 +90,7 @@ function renderSVG($id) {
 
 	$svg = sprintf('<svg width="%d" height="%d" version="1.1" xmlns="http://www.w3.org/2000/svg" 
 	                  xmlns:xlink="http://www.w3.org/1999/xlink"  shape-rendering="crispEdges">
+					  <line x1="0" y1="0" x2="1" y2="1" stroke="red" />
 	                  %s
 	                </svg>', $scr["width"], $scr["height"], $body);
 
@@ -147,11 +148,11 @@ function renderJPG($id, $numc, $maxwidth, $maxheight) {
 	$im = new Imagick();
 	$im->readImageFile(fopen($svgf.".png", "rb"));
 	$im->setImageFormat("jpeg");
-	$im->transformImageColorspace(imagick::COLORSPACE_SRGB);
+	
 	//$im->posterizeImage($numc, imagick::DITHERMETHOD_NO);
-	$im->setImageBackgroundColor('red');
+	$im->setImageBackgroundColor('white');
 	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-
+	$im->transformImageColorspace(imagick::COLORSPACE_SRGB);
 	unlink($svgf);
     unlink($svgf .".png");
 	return $im;
