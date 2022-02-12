@@ -147,7 +147,7 @@ function renderJPG($id, $numc, $maxwidth, $maxheight) {
 	$im = new Imagick();
 	$im->readImageFile(fopen($svgf.".png", "rb"));
 	$im->setImageFormat("jpeg");
-	$im->transformImageColorspace(imagick::COLORSPACE_RGB);
+	$im->transformImageColorspace(imagick::COLORSPACE_SRGB);
 	//$im->posterizeImage($numc, imagick::DITHERMETHOD_NO);
 	$im->setImageBackgroundColor('white');
 	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
