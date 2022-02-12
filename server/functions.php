@@ -149,7 +149,7 @@ function renderJPG($id, $numc, $maxwidth, $maxheight) {
 	$im->setImageFormat("jpeg");
 	$im->transformImageColorspace(imagick::COLORSPACE_SRGB);
 	//$im->posterizeImage($numc, imagick::DITHERMETHOD_NO);
-	$im->setImageBackgroundColor('white');
+	$im->setImageBackgroundColor('red');
 	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 
 	unlink($svgf);

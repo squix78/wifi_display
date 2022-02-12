@@ -65,7 +65,7 @@ class WeatherForecastProvider implements ServiceProvider {
 
 			$daily[] = sprintf(
 				'<svg x="%d" y="%d" width="%d" height="%d" shape-rendering="crispEdges">%s</svg>
-				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
+				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal; color: red;">
 				%s
 				</text>
 				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
