@@ -63,6 +63,7 @@ class Providers {
 function renderSVG($id) {
 	//header('Content-type: image/svg+xml');
 
+
 	// Read the screen and parse it as JSON
 	$scr = file_get_contents("screens/".$id);
 	$scr = json_decode($scr, true);
@@ -127,9 +128,29 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 	$im->blackThresholdImage('grey');
 	$im->setOption('jpeg:colors', '2');
 	$im->setImageBackgroundColor('white');
-	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);-
 
-	$im->stripImage();
+	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+	unlink($svgf);
+	unlink($svgf.".png");
+	return $im;
+}
+
+function renderJPG($id, $numc, $maxwidth, $maxheight) {
+	// Render image
+	$data = renderSVG($id);
+	$svg = $data["svg"];
+	$svgf = tempnam("/tmp", "svgconv");
+	file_put_contents($svgf, $svg);
+	// Call convert
+	exec("rsvg-convert -o " . $svgf . ".png " . $svgf);
+
+	$im = new Imagick();
+	$im->readImageFile(fopen($svgf.".png", "rb"));
+	$im->setImageFormat("jpeg");
+	$im->transformImageColorspace(imagick::COLORSPACE_CMYK);
+	//$im->posterizeImage($numc, imagick::DITHERMETHOD_NO);
+	$im->setImageBackgroundColor('white');
+	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 
 	unlink($svgf);
     unlink($svgf .".png");
