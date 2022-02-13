@@ -66,7 +66,7 @@ class SBBTimesProvider implements ServiceProvider {
 			$entrystr = str_replace("{train}", $zug, $entrystr);
 
 			$ret .= sprintf(
-				'<text x="%d" y="%d" fill="black" style="font-size: %dpx; font-style: %s; font-weight: bold;">%s</text>',
+				'<text x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s;">%s</text>',
 				0, $y, $this->font_size * $this->height, $this->font_family, $entrystr);
 			$y += $this->font_size * $this->height;
 		}
