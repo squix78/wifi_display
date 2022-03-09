@@ -5,6 +5,7 @@ require_once("auth.php");
 require_once("provider.php");
 require_once("weather.php");
 require_once("sbb.php");
+require_once("web-image.php");
 require_once("publibike.php");
 require_once("currency.php");
 require_once("stock.php");
@@ -75,7 +76,7 @@ function renderSVG($id) {
 		foreach ($widget["params"] as $p => $v)
 			$params[$p] = array("value" => $v);
 
-		$wi = Providers::getRender($widget["type"], $params, $widget["geo"]["w"] * $scr["width"], $widget["geo"]["h"] * $scr["height"]);
+		$wi = Providers::getRender($widget["type"], $params, 0, 0);
 
 		$body[] = sprintf('<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s"/>',
 		                  $widget["geo"]["x"] * $scr["width"],
@@ -124,11 +125,25 @@ function renderBMP($id, $numc, $maxwidth, $maxheight) {
 	$im->setImageCompressionQuality(30);
 	//$im->setImageFormat("jpeg");
 
-	$im->transformImageColorspace(Imagick::IMGTYPE_GRAYSCALE);
-	$im->posterizeImage(2, imagick::DITHERMETHOD_NO);
-	$im->blackThresholdImage('grey');
-	$im->setOption('jpeg:colors', '2');
-	$im->setImageBackgroundColor('white');
+	//$im->transformImageColorspace(Imagick::IMGTYPE_GRAYSCALE);
+	//$im->posterizeImage(2, imagick::DITHERMETHOD_NO);
+	//$im->blackThresholdImage('grey');
+	//$im->setOption('jpeg:colors', '2');
+	//$im->setImageBackgroundColor('white');
+	
+	///
+
+	$paletteImage = clone $im;
+	//$paletteImage->quantizeImage(4, 4, 0, true, false);
+	//$paletteImage->setImageDepth(2);
+	$paletteImage->quantizeImage(2,Imagick::COLORSPACE_GRAY,0,false,false);
+	//$im->remapImage($paletteImage, Imagick::DITHERMETHOD_FLOYDSTEINBERG);
+	//$im->quantizeImage(2,Imagick::COLORSPACE_GRAY,0,false,false);
+	//$im->setImageFormat("jpeg");
+
+
+
+	///
 
 	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 	unlink($svgf);

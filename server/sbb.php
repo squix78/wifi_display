@@ -56,20 +56,31 @@ class SBBTimesProvider implements ServiceProvider {
 
 		$ret = '';
 		$y = $this->font_size * $this->height;
+		$xScale = $this->font_size * 10;
+		$departureColumn = '';
+		$trainColumn = '';
+		$directionColumn = '';
+		$trainBox = '';
 		for ($i = 0; $i < $this->numdep; $i++) {
-			$zug = $info["stationboard"][$i]["name"];
-			$where = $info["stationboard"][$i]["to"];
-			$attime = date('G:i', $info["stationboard"][$i]["stop"]["departureTimestamp"]);
+			$departure = date('G:i', $info["stationboard"][$i]["stop"]["departureTimestamp"]);
+			$train = $info["stationboard"][$i]["number"];
+			$direction = $info["stationboard"][$i]["to"];
 
-			$entrystr = str_replace("{time}", $attime, $this->strformat);
-			$entrystr = str_replace("{dest}", $where, $entrystr);
-			$entrystr = str_replace("{train}", $zug, $entrystr);
+			$trainColumn .= sprintf('<tspan x="%d" y="%d" text-anchor="middle" fill="white" style="font-size: %dpx; font-family: %s;">%s</tspan>',
+				20 * $xScale, $y, $this->font_size * $this->height, $this->font_family, $train);
+			$trainBox .= sprintf('<rect x="%d" y="%d" width="%d" height="%d" style="fill:gray;stroke-width:1;stroke:black" />',
+				0, $y -  $this->font_size * $this->height + 1, $xScale * 40, $this->font_size * $this->height);
+			$departureColumn .= sprintf('<tspan x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s;">%s</tspan>',
+				60 * $xScale, $y, $this->font_size * $this->height, $this->font_family, $departure);
 
-			$ret .= sprintf(
-				'<text x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s;">%s</text>',
-				0, $y, $this->font_size * $this->height, $this->font_family, $entrystr);
+			$directionColumn .= sprintf('<tspan x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s;">%s</tspan>',
+				120 * $xScale, $y, $this->font_size * $this->height, $this->font_family, $direction);
+
 			$y += $this->font_size * $this->height;
 		}
+		$ret = $trainBox.'<text xmlns="http://www.w3.org/2000/svg" x="180" y="30" font-size="18px">'
+			.$departureColumn.$trainColumn.$directionColumn.'</text>';
+
 
 		// Generate an SVG image out of this 
 		return sprintf('<svg width="%d" height="%d" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">%s</svg>',
