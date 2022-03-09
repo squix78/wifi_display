@@ -68,8 +68,8 @@ class SBBTimesProvider implements ServiceProvider {
 
 			$trainColumn .= sprintf('<tspan x="%d" y="%d" text-anchor="middle" fill="white" style="font-size: %dpx; font-family: %s;">%s</tspan>',
 				20 * $xScale, $y, $this->font_size * $this->height, $this->font_family, $train);
-			$trainBox .= sprintf('<rect x="%d" y="%d" width="%d" height="%d" style="fill:gray;stroke-width:1;stroke:black" />',
-				0, $y -  $this->font_size * $this->height + 1, $xScale * 40, $this->font_size * $this->height);
+			$trainBox .= sprintf('<rect x="%d" y="%d" width="%d" height="%d" style="fill:gray;stroke-width:0;stroke:black" />',
+				0, $y -  $this->font_size * $this->height, $xScale * 40, $this->font_size * $this->height + 1);
 			$departureColumn .= sprintf('<tspan x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s;">%s</tspan>',
 				60 * $xScale, $y, $this->font_size * $this->height, $this->font_family, $departure);
 
