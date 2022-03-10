@@ -159,9 +159,9 @@ function renderJPG($id, $numc, $maxwidth, $maxheight) {
 	$svgf = tempnam("/tmp", "svgconv");
 	file_put_contents($svgf, $svg);
 	// Call convert
-	exec("rsvg-convert --format png --background-color=white --no-keep-image-data -o " . $svgf . ".png " . $svgf);
+	exec("rsvg-convert --background-color=white -o " . $svgf . ".png " . $svgf);
 	//exec("convert " . $svgf . " " . $svgf . ".png");
-    return file_get_contents($svgf);
+
 
 	$im = new Imagick();
 	$im->readImageFile(fopen($svgf.".png", "rb"));
