@@ -11,6 +11,7 @@ class SBBTimesProvider implements ServiceProvider {
 	public $numdep;
 	public $width;
 	public $height;
+	public $replaceRegexp;
 
 	function SBBTimesProvider() {
 		$this->station = 8503000;  // Zurich HB
@@ -19,22 +20,22 @@ class SBBTimesProvider implements ServiceProvider {
 		$this->height = 200;
 		$this->font_size = 0.65;
 		$this->font_family = "Arial";
-		$this->strformat = "{time} {dest} [{train}]";
+		$this->replaceRegexp = "/Zürich(, )/";
 	}
 
     public function getTunables() {
 		return array(
-			"station"    => array("type" => "fnum", "display" => "Station ID", "value" => $this->station),
-			"numdep"    => array("type" => "fnum", "display" => "Board size", "value" => $this->numdep),
-			"strformat"    => array("type" => "text", "display" => "Display format", "value" => $this->strformat),
-			"font_family" => array("type" => "text", "display" => "Font Family", "value" => $this->font_family),
-			"font_size"   => array("type" => "fnum", "display" => "Font Size", "value" => $this->font_size)
+			"station"       => array("type" => "fnum", "display" => "Station ID", "value" => $this->station),
+			"numdep"        => array("type" => "fnum", "display" => "Board size", "value" => $this->numdep),
+			"replaceRegexp" => array("type" => "text", "display" => "Regexp, Replace from Station", "value" => $this->replaceRegexp),
+			"font_family"   => array("type" => "text", "display" => "Font Family", "value" => $this->font_family),
+			"font_size"     => array("type" => "fnum", "display" => "Font Size", "value" => $this->font_size)
 		);
 	}
     public function setTunables($v) {
 		$this->station = $v["station"]["value"];
 		$this->numdep = $v["numdep"]["value"];
-		$this->strformat = $v["strformat"]["value"];
+		$this->replaceRegexp = $v["replaceRegexp"]["value"];
 		$this->font_family = $v["font_family"]["value"];
 		$this->font_size = $v["font_size"]["value"];
 	}
@@ -65,6 +66,7 @@ class SBBTimesProvider implements ServiceProvider {
 			$departure = date('G:i', $info["stationboard"][$i]["stop"]["departureTimestamp"]);
 			$train = $info["stationboard"][$i]["number"];
 			$direction = $info["stationboard"][$i]["to"];
+			$direction = preg_replace($this->replaceRegexp, "", $direction);
 
 			$trainColumn .= sprintf('<tspan x="%d" y="%d" text-anchor="middle" fill="white" style="font-size: %dpx; font-family: %s;">%s</tspan>',
 				20 * $xScale, $y, $this->font_size * $this->height, $this->font_family, $train);
