@@ -165,7 +165,7 @@ function renderJPG($id, $numc, $maxwidth, $maxheight) {
 
 	$im = new Imagick();
 	$im->readImageFile(fopen($svgf.".png", "rb"));
-	//$im->setImageFormat("jpeg");
+	$im->setImageFormat("jpeg");
 	
 	//$im->posterizeImage($numc, imagick::DITHERMETHOD_NO);
 	//$im->setImageBackgroundColor('white');
