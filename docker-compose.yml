@@ -11,6 +11,8 @@
         volumes:
           - "./server:/var/www/html"
         ports: 
-          - "80:80"
+          - "9080:80"
         networks: 
           - "web"
+        environment:
+          - "TZ=Europe/Zurich"
