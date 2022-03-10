@@ -50,16 +50,15 @@ class WeatherProvider implements ServiceProvider {
 		$icon = $weather["weather"][0]["icon"];
 		$temp = $weather["main"]["temp"] - 273.15;
 
-		// Generate an SVG image out of this 
 		return sprintf(
 			'<svg width="%d" height="%d" version="1.1" xmlns="http://www.w3.org/2000/svg" 
-				xmlns:xlink="http://www.w3.org/1999/xlink">
-				<svg x="%d" y="%d" width="%d" height="%d" shape-rendering="crispEdges">%s</svg>
+				xmlns:xlink="http://www.w3.org/1999/xlink" >
+				<image x="%d" y="%d" width="%d" height="%d" href="%s" shape-rendering="crispEdges"/>
                 <text text-anchor="end" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">%d°</text>
 			</svg>', $this->width, $this->height,
 				0.03 * $this->width, 0.05 * $this->height,
 				0.35 * $this->width, 0.9 * $this->height,
-				ProviderAux::loadSVG("resources/".$this->imgmap[$icon].".svg"),
+				ProviderAux::embedSVG("resources/".$this->imgmap[$icon].".svg"),
 				$this->width, ($this->font_size/3.0 + 0.5) * $this->height, $this->font_size * $this->height,
 				$this->font_family,
 				round($temp)

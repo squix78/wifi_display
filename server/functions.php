@@ -78,7 +78,8 @@ function renderSVG($id) {
 
 		$wi = Providers::getRender($widget["type"], $params, 0, 0);
 
-		$body[] = sprintf('<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s"/>',
+		
+		$body[] = sprintf('<image x="%d" y="%d" width="%d" height="%d" xlink:href="%s" />',
 		                  $widget["geo"]["x"] * $scr["width"],
 		                  $widget["geo"]["y"] * $scr["height"],
 		                  $widget["geo"]["w"] * $scr["width"],
@@ -158,16 +159,19 @@ function renderJPG($id, $numc, $maxwidth, $maxheight) {
 	$svgf = tempnam("/tmp", "svgconv");
 	file_put_contents($svgf, $svg);
 	// Call convert
-	exec("rsvg-convert -o " . $svgf . ".png " . $svgf);
+	exec("rsvg-convert --format png --background-color=white --no-keep-image-data -o " . $svgf . ".png " . $svgf);
+	//exec("convert " . $svgf . " " . $svgf . ".png");
+    return file_get_contents($svgf);
 
 	$im = new Imagick();
 	$im->readImageFile(fopen($svgf.".png", "rb"));
-	$im->setImageFormat("jpeg");
+	//$im->setImageFormat("jpeg");
 	
 	//$im->posterizeImage($numc, imagick::DITHERMETHOD_NO);
-	$im->setImageBackgroundColor('white');
-	$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-	$im->transformImageColorspace(imagick::COLORSPACE_SRGB);
+	//$im->setImageBackgroundColor('white');
+	//$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+	//$im->transformImageColorspace(imagick::COLORSPACE_SRGB);
+
 	unlink($svgf);
     unlink($svgf .".png");
 	return $im;

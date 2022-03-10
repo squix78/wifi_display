@@ -65,7 +65,7 @@ class WeatherHourlyForecastProvider implements ServiceProvider {
 			$pop = $forecast[$i+1]["pop"] * 100;
 			$embedded = ProviderAux::loadSVG("resources/".$this->imgmap[$icon].".svg");
 
-			$daily[] = sprintf(
+			/*$daily[] = sprintf(
 				'<svg x="%d" y="%d" width="%d" height="%d" shape-rendering="crispEdges">%s</svg>
 				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
 				%s
@@ -85,6 +85,26 @@ class WeatherHourlyForecastProvider implements ServiceProvider {
 				($mint + $maxt) /2,
 				$pop
 
+			);*/
+			$daily[] = sprintf(
+				'<image x="%d" y="%d" width="%d" height="%d" shape-rendering="crispEdges" xlink:href="%s" />
+				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
+				%s
+				</text>
+				<text alignment-baseline="central" text-anchor="middle" x="%d" y="%d" fill="black" style="font-size: %dpx; font-family: %s; font-weight: normal;">
+				%d° %d%%
+				</text>
+				',
+				$this->width / $nd * ($i + 0.05), $this->height * 0.15,
+				$this->width / $nd * 0.9, $this->height * 0.6,
+				ProviderAux::embedSVG("resources/".$this->imgmap[$icon].".svg"),
+				$this->width / $nd * ($i + 0.5), 0.12  * $this->height,
+				$this->font_size * $this->height, $this->font_family,
+				$dayn,
+				$this->width / $nd * ($i + 0.5), 0.92  * $this->height,
+				$this->font_size * $this->height, $this->font_family,
+				($mint + $maxt) /2,
+				$pop
 			);
 		}
 

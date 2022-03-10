@@ -18,10 +18,11 @@ RUN apt-get install -y --no-install-recommends \
     fonts-open-sans \
     fontconfig 
 COPY server/fontconfig/* /etc/fonts/conf.d/
+COPY php.ini /usr/local/etc/php/
 RUN fc-cache -f -v
 RUN printf "\n" | pecl install imagick
 RUN mkdir -p /tmp
 RUN chmod a+rw /tmp
-
+RUN ln -s -f /usr/share/zoneinfo/Europe/Zurich /etc/localtime
 RUN docker-php-ext-enable imagick
 
