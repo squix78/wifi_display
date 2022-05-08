@@ -57,23 +57,25 @@ class ImageProvider implements ServiceProvider {
 		$data = file_get_contents($this->href);
 		$imagick = new Imagick();
     	$imagick->readImageBlob($data);
+		$containerFactor = 4;
+		$imageFactor = 5;
 
 		$paletteImage = clone $imagick;
 		//$paletteImage->quantizeImage(4, 4, 0, true, false);
 		//$paletteImage->setImageDepth(2);
-		$paletteImage->quantizeImage(2,Imagick::COLORSPACE_GRAY,0,false,false);
+		$paletteImage->quantizeImage(16,Imagick::COLORSPACE_GRAY,0,false,false);
 		//$imagickFrame->quantizeImage(15,Imagick::COLORSPACE_TRANSPARENT,0,false,false);
 		//Imagick::mapImage ( Imagick $map , bool $dither )
-		$imagick->remapImage($paletteImage, Imagick::DITHERMETHOD_FLOYDSTEINBERG);
-		$imagick->quantizeImage(2,Imagick::COLORSPACE_GRAY,0,false,false);
+		//$imagick->remapImage($paletteImage, Imagick::DITHERMETHOD_FLOYDSTEINBERG);
+		//$imagick->quantizeImage(16,Imagick::COLORSPACE_GRAY,0,false,false);
 
 		$base64 = 'data:image/'.$imagick->getFormat().';base64,' . base64_encode($imagick->getImageBlob());
 
-		$ret = sprintf('<image href="%s" height="%d" width="%d"/>' , $base64, $this->width, $this->height);
+		$ret = sprintf('<image href="%s" height="%d" width="%d" x="%d" y="%d"/>' , $base64, $this->width * $imageFactor, $this->height * $imageFactor, 0, - $containerFactor / 2 * $this->height);
 
 		// Generate an SVG image out of this 
 		return sprintf('<svg width="%d" height="%d" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">%s</svg>',
-			$this->width, $this->height, $ret);
+			$this->width * $containerFactor, $this->height * $containerFactor, $ret);
 	}
 };
 

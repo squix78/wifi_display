@@ -166,11 +166,11 @@ function renderJPG($id, $numc, $maxwidth, $maxheight) {
 	$im = new Imagick();
 	$im->readImageFile(fopen($svgf.".png", "rb"));
 	$im->setImageFormat("jpeg");
-	
-	//$im->posterizeImage($numc, imagick::DITHERMETHOD_NO);
+	//$im->quantizeImage(2,Imagick::COLORSPACE_GRAY,0,true,false);
+	//$im->posterizeImage(16, imagick::DITHERMETHOD_NO);
 	//$im->setImageBackgroundColor('white');
 	//$im = $im->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-	//$im->transformImageColorspace(imagick::COLORSPACE_SRGB);
+	$im->transformImageColorspace(imagick::COLORSPACE_GRAY);
 
 	unlink($svgf);
     unlink($svgf .".png");
