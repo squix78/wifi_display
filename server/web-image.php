@@ -67,7 +67,7 @@ class ImageProvider implements ServiceProvider {
 		//$imagickFrame->quantizeImage(15,Imagick::COLORSPACE_TRANSPARENT,0,false,false);
 		//Imagick::mapImage ( Imagick $map , bool $dither )
 		$imagick->remapImage($paletteImage, Imagick::DITHERMETHOD_FLOYDSTEINBERG);
-		//$imagick->quantizeImage(16,Imagick::COLORSPACE_GRAY,0,false,false);
+		$imagick->quantizeImage(16,Imagick::COLORSPACE_GRAY,0,false,false);
 
 		$base64 = 'data:image/'.$imagick->getFormat().';base64,' . base64_encode($imagick->getImageBlob());
 
